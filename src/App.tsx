@@ -3,55 +3,38 @@ import { Component } from 'react';
 import { reactify } from '@extjs/reactor';
 
 const Panel = reactify('panel') as any
-const TabPanel = reactify('tabpanel') as any
 
-type Item = { id: number, text: string }
-type State = { focus: number, items: Array<Item> }
+type State = { content: string }
 
 export default class App extends Component<any, State> {
-    constructor(p, c) {
-        super(p, c)
-        this.state = {
-            focus: 3,
-            items: [
-                {id: 0, text: 'example'},
-                {id: 1, text: 'example'},
-                {id: 2, text: 'example'},
-                {id: 3, text: 'example'}
-            ]
-        }
+  constructor(p, c) {
+    super(p, c)
+
+    this.state = {
+      content: "Splitter on left. Wait 5 seconds..."
     }
 
-    switchFocus(nextPanel) {
-        this.setState({focus: nextPanel ? nextPanel.config.itemId : null})
-    }
+    setTimeout(() => this.setState({
+      content: "Splitter now on right"
+    }), 5000)
+  }
 
-    closeItem(id) {
-        this.setState(state => ({items: state.items.filter(item => item.id !== id)}))
-    }
-
-    render() {
-        return (
-            <Panel>
-                <TabPanel activeTab={this.state.focus}
-                          onBeforeTabChange={(tabPanel, nextPanel) => this.switchFocus(nextPanel)}>
-                    {this.state.items.map(item => (
-                        <Panel key={item.id}
-                               title={item.text}
-                               itemId={item.id}
-                               closable={true}
-                               layout="fit"
-                               onBeforeClose={() => {
-                                   this.closeItem(item.id)
-                                   return false
-                               }}>
-                            <Panel>{item.text}</Panel>
-                            <Panel>{item.text}</Panel>
-                        </Panel>
-                    ))}
-                </TabPanel>
-            </Panel>
-        )
-    }
+  render() {
+    return (
+      <Panel layout="border">
+        <Panel region="center"/>
+        <Panel
+          region="east"
+          collapsible={true}
+          split={true}
+          minWidth={400}>East: {this.state.content}</Panel>
+        <Panel
+          region="west"
+          collapsible={true}
+          split={true}
+          minWidth={400}>West: not affected.</Panel>
+      </Panel>
+    )
+  }
 }
 
