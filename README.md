@@ -4,10 +4,10 @@ This is a clone of https://github.com/unional/reactor-typescript-boilerplate but
 
 * Run the app with `npm start`
 * Go to [http://localhost:8889](http://localhost:8889)
-* Should see four tabs all called `"example"`, the right-most should have focus
-* Close the second tab
-* Close the (now) middle tab
-* See two tabs with a gap in the middle and an error in the console
+* Should see an east panel with a splitter on the left
+* Wait five seconds (the state will change and component rerenders)
+* See the splitter jump to the right of the east panel
+* The west panel is unaffected
 
 
 ## Requirements
